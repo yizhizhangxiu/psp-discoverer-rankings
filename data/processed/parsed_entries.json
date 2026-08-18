@@ -1,0 +1,894 @@
+[
+  {
+    "designation": "PSN J04544410+6943075",
+    "type": "未获证认"
+  },
+  {
+    "designation": "SN 2015cz",
+    "type": "SN IIP"
+  },
+  {
+    "designation": "SN 2015ay",
+    "type": "SN II"
+  },
+  {
+    "designation": "SN 2016M",
+    "type": "SN IIb"
+  },
+  {
+    "designation": "AT 2016adm",
+    "type": "未获证认"
+  },
+  {
+    "designation": "M31N 2016-02a",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "SN 2016afa",
+    "type": "SN II"
+  },
+  {
+    "designation": "SN 2016ajo",
+    "type": "SN Ib"
+  },
+  {
+    "designation": "SN 2016aqw",
+    "type": "SN II"
+  },
+  {
+    "designation": "AT 2016aqx",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2016ara",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2016bsf",
+    "type": "未获证认"
+  },
+  {
+    "designation": "SN 2016ghq",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "M31N 2017-07b",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "AT 2017fvb",
+    "type": "未获证认"
+  },
+  {
+    "designation": "SN 2017gjn",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "M31N 2017-09a",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "SN 2017glx",
+    "type": "SN Ia-91T-like"
+  },
+  {
+    "designation": "M31N 2017-09d",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "SN 2017hle",
+    "type": "SN Ia-91bg-like"
+  },
+  {
+    "designation": "AT 2017hqq",
+    "type": "未获证认"
+  },
+  {
+    "designation": "SN 2017ixe",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "SN 2018acj",
+    "type": "SN IIP"
+  },
+  {
+    "designation": "SN 2018gjx",
+    "type": "SN II"
+  },
+  {
+    "designation": "SN 2019aik",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "SN 2019bqe",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "PNV J00441073+4154220",
+    "type": "Nova He/N"
+  },
+  {
+    "designation": "SN 2019wep",
+    "type": "SN II-pec"
+  },
+  {
+    "designation": "AT 2019wvf",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "SN 2020enm",
+    "type": "SN Ia -91T/99aa-like"
+  },
+  {
+    "designation": "AT 2020lye",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "SN 2020yzq",
+    "type": "SN II"
+  },
+  {
+    "designation": "AT 2021rnn",
+    "type": "UG"
+  },
+  {
+    "designation": "AT 2021rno",
+    "type": "Nova He/N"
+  },
+  {
+    "designation": "AT 2021urk",
+    "type": "Nova"
+  },
+  {
+    "designation": "SN 2021vtl",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "AT 2021yan",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2021yao",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2021xyr",
+    "type": "VAR"
+  },
+  {
+    "designation": "AT 2021ypn",
+    "type": "Nova FeII"
+  },
+  {
+    "designation": "AT 2021ypo",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2021yul",
+    "type": "Nova"
+  },
+  {
+    "designation": "PSP21an",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP21am",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2021zbu",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2021zld",
+    "type": "UG"
+  },
+  {
+    "designation": "AT 2021zms",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2021znz",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2021zxr",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021zxn",
+    "type": "BY+UV"
+  },
+  {
+    "designation": "AT 2021aabc",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021aacn",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abua",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abhx",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abqo",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2021abmc",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abqp",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abqq",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abqr",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021abty",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2021acdq",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP21ao",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2021aceg",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2021aecv",
+    "type": "CV"
+  },
+  {
+    "designation": "AT 2021aeey",
+    "type": "UGSU:"
+  },
+  {
+    "designation": "TCP J22483457+3140238",
+    "type": "UV"
+  },
+  {
+    "designation": "PSPV 10",
+    "type": "EA"
+  },
+  {
+    "designation": "TCP J01022730+3134281",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2021aeoz",
+    "type": "UG:"
+  },
+  {
+    "designation": "TCP J00444394+4252317",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J00383874+4053374",
+    "type": "UV:"
+  },
+  {
+    "designation": "PSP21ak",
+    "type": "EA"
+  },
+  {
+    "designation": "SN 2021agco",
+    "type": "SN II"
+  },
+  {
+    "designation": "SN 2022jo",
+    "type": "SN II"
+  },
+  {
+    "designation": "PSP22B",
+    "type": "EW"
+  },
+  {
+    "designation": "PSP22C",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22D",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22J",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22E",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22F",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22G",
+    "type": "EA+ROT"
+  },
+  {
+    "designation": "PSP22O",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22K",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22H",
+    "type": "ELL"
+  },
+  {
+    "designation": "PSP22I",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22M",
+    "type": "EW"
+  },
+  {
+    "designation": "PSP22L",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22N",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22Q",
+    "type": "EW"
+  },
+  {
+    "designation": "PSP22P",
+    "type": "Nova He/N"
+  },
+  {
+    "designation": "PSP22R",
+    "type": "未获证认"
+  },
+  {
+    "designation": "PSP22S",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22T",
+    "type": "UG"
+  },
+  {
+    "designation": "PSP22V",
+    "type": "UG"
+  },
+  {
+    "designation": "PSP22U",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22W",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22X",
+    "type": "EA+ROT"
+  },
+  {
+    "designation": "AT 2022nci",
+    "type": "Nova"
+  },
+  {
+    "designation": "PSP22aa",
+    "type": "UV"
+  },
+  {
+    "designation": "PSP22Z",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 11",
+    "type": "BY+UV"
+  },
+  {
+    "designation": "PSPV 13",
+    "type": "EA+ROT"
+  },
+  {
+    "designation": "PSPV 16",
+    "type": "BY"
+  },
+  {
+    "designation": "PSP22ab",
+    "type": "UG"
+  },
+  {
+    "designation": "PSPV 1",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 3",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22ac",
+    "type": "未获证认"
+  },
+  {
+    "designation": "PSP22ad",
+    "type": "AGN"
+  },
+  {
+    "designation": "PSP22ae",
+    "type": "SN II"
+  },
+  {
+    "designation": "PSPV 2",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 8",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22af",
+    "type": "UG"
+  },
+  {
+    "designation": "PSPV 9",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22ag",
+    "type": "SN II"
+  },
+  {
+    "designation": "PSP22ak",
+    "type": "Nova"
+  },
+  {
+    "designation": "PSP22ai",
+    "type": "Nova"
+  },
+  {
+    "designation": "PSP22ah",
+    "type": "Nova"
+  },
+  {
+    "designation": "PSPV 4",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22aj",
+    "type": "UV"
+  },
+  {
+    "designation": "PSPV 5",
+    "type": "EA"
+  },
+  {
+    "designation": "PSP22al",
+    "type": "UG:"
+  },
+  {
+    "designation": "PSP22am",
+    "type": "UV"
+  },
+  {
+    "designation": "SN 2023iy",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "TCP J02224832+4234106",
+    "type": "UV"
+  },
+  {
+    "designation": "PSPV 15",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 12",
+    "type": "EA"
+  },
+  {
+    "designation": "SN 2023bqh",
+    "type": "SN II"
+  },
+  {
+    "designation": "PSPV 14",
+    "type": "BY"
+  },
+  {
+    "designation": "AT 2023cqd",
+    "type": "未获证认"
+  },
+  {
+    "designation": "TCP J09362817+3707556",
+    "type": "UV"
+  },
+  {
+    "designation": "PSPV 35",
+    "type": "EA"
+  },
+  {
+    "designation": "SN 2023eoc",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "SN 2023erk",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "PSPV 34",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2023mxi",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2023nnk",
+    "type": "UG"
+  },
+  {
+    "designation": "PSPV 6",
+    "type": "ROT"
+  },
+  {
+    "designation": "PSPV 17",
+    "type": "EA+ROT"
+  },
+  {
+    "designation": "PSPV 18",
+    "type": "EA+BY"
+  },
+  {
+    "designation": "AT 2023opo",
+    "type": "UG:"
+  },
+  {
+    "designation": "PSPV 19",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 20",
+    "type": "ELL:"
+  },
+  {
+    "designation": "PSPV 21",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 22",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2023uri",
+    "type": "Nova"
+  },
+  {
+    "designation": "SN 2023usf",
+    "type": "SN Ib"
+  },
+  {
+    "designation": "PSPV 23",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2023wbz",
+    "type": "UG"
+  },
+  {
+    "designation": "PSPV 24",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 25",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 26",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 7",
+    "type": "BY+UV"
+  },
+  {
+    "designation": "PSPV 27",
+    "type": "EA"
+  },
+  {
+    "designation": "AT 2023yoa",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2023ypg",
+    "type": "Nova"
+  },
+  {
+    "designation": "TCP J00351266+4032008",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2023yqt",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2023yvj",
+    "type": "Nova"
+  },
+  {
+    "designation": "TCP J07343828+5445315",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J02202036+4236352",
+    "type": "UV"
+  },
+  {
+    "designation": "SN 2024vs",
+    "type": "SN II"
+  },
+  {
+    "designation": "TCP J03205377+4227578",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2024aoc",
+    "type": "Nova"
+  },
+  {
+    "designation": "PSPV 28",
+    "type": "BY"
+  },
+  {
+    "designation": "TCP J02055218+1440593",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J02162043+2150582",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J03195697+4043443",
+    "type": "BY+UV"
+  },
+  {
+    "designation": "SN 2024biv",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "TCP J02165129+3115546",
+    "type": "UV"
+  },
+  {
+    "designation": "PSPV 29",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 30",
+    "type": "EA/RS"
+  },
+  {
+    "designation": "SN 2024btj",
+    "type": "SN II"
+  },
+  {
+    "designation": "PSPV 31",
+    "type": "EW/RS"
+  },
+  {
+    "designation": "AT 2024ccb",
+    "type": "Nova"
+  },
+  {
+    "designation": "SN 2024dlk",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "PSPV 32",
+    "type": "EA"
+  },
+  {
+    "designation": "PSPV 33",
+    "type": "EA"
+  },
+  {
+    "designation": "SN 2024gag",
+    "type": "SN II"
+  },
+  {
+    "designation": "TCP J19131498+6030325",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J21352875+3547430",
+    "type": "UV"
+  },
+  {
+    "designation": "AT 2024lwy",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2024qnv",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2024qui",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2024ryu",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2024tde",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J00425013+4236330",
+    "type": "UV+BY"
+  },
+  {
+    "designation": "TCP J20235356+5958505",
+    "type": "UG"
+  },
+  {
+    "designation": "AT 2024xtk",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2024ynw",
+    "type": "Nova"
+  },
+  {
+    "designation": "SN 2024aawh",
+    "type": "SN II"
+  },
+  {
+    "designation": "AT 2024aayx",
+    "type": "Nova"
+  },
+  {
+    "designation": "SN 2024acsd",
+    "type": "SN Ic-BL"
+  },
+  {
+    "designation": "TCP J22323922+3858386",
+    "type": "UG"
+  },
+  {
+    "designation": "PNV J00424538+4116352",
+    "type": "未获证认"
+  },
+  {
+    "designation": "TCP J16092976+6421279",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J03435069+3725400",
+    "type": "UV"
+  },
+  {
+    "designation": "TCP J14060081+2156448",
+    "type": "UG"
+  },
+  {
+    "designation": "SN 2025aue",
+    "type": "SN Ia-91T-like"
+  },
+  {
+    "designation": "PSPV 36",
+    "type": "EA+BY"
+  },
+  {
+    "designation": "SN 2025dju",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "AT 2025etj",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2025ghv",
+    "type": "UGSU"
+  },
+  {
+    "designation": "TCP J22513664+3334177",
+    "type": "UG"
+  },
+  {
+    "designation": "SN 2025lzw",
+    "type": "SN Ia-91T-like"
+  },
+  {
+    "designation": "AT 2025ofe",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2025wbt",
+    "type": "未获证认"
+  },
+  {
+    "designation": "AT 2025whl",
+    "type": "未获证认"
+  },
+  {
+    "designation": "SN 2025wwk",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "SN 2025wxl",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "AT 2025yhk",
+    "type": "未获证认"
+  },
+  {
+    "designation": "PNV J01350197+3043202",
+    "type": "Nova"
+  },
+  {
+    "designation": "TCP J03325299+3823577",
+    "type": "UG:"
+  },
+  {
+    "designation": "PNV J00414761+4116217",
+    "type": "Nova"
+  },
+  {
+    "designation": "PNV J00450509+4106337",
+    "type": "未获证认"
+  },
+  {
+    "designation": "PNV J00425774+4108126",
+    "type": "Nova"
+  },
+  {
+    "designation": "SN 2026gm",
+    "type": "SN Ia"
+  },
+  {
+    "designation": "AT 2026xf",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2026aoj",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2026arf",
+    "type": "Nova"
+  },
+  {
+    "designation": "AT 2026bux",
+    "type": "未获证认"
+  },
+  {
+    "designation": "PNV J00430488+4129414",
+    "type": "未获证认"
+  },
+  {
+    "designation": "PNV J00423682+4116058",
+    "type": "未获证认"
+  },
+  {
+    "designation": "SN 2026fsf",
+    "type": "SN II"
+  }
+]

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="PSP 系统发现目标的发现者统计排行。">
+<title>PSP 系统发现目标 · 发现者统计排行</title>
+<style>
+:root {
+  --bg: #f6f8fb; --card: #ffffff; --ink: #1f2937; --muted: #6b7280;
+  --line: #e5e7eb; --accent: #2563eb; --gold: #b45309;
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 32px 20px 60px; background: var(--bg); color: var(--ink); font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif; }
+.wrap { max-width: 1080px; margin: 0 auto; }
+h1 { font-size: clamp(22px, 3vw, 28px); margin: 0 0 6px; }
+.sub { color: var(--muted); font-size: 13px; margin-bottom: 24px; line-height: 1.7; }
+.sub a, details summary { color: var(--accent); text-decoration: none; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 0 0 28px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; text-align: center; }
+.card-num { font-size: 26px; font-weight: 700; color: var(--accent); }
+.card-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
+.toolbar input { flex: 1; min-width: min(220px, 100%); padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; }
+.btn { padding: 9px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); cursor: pointer; font-size: 13px; color: var(--ink); }
+.btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 14px; }
+th, td { padding: 9px 10px; text-align: left; border-bottom: 1px solid var(--line); }
+thead th { background: #eef2f7; font-size: 13px; color: var(--muted); position: sticky; top: 0; }
+tbody tr:last-child td { border-bottom: 0; }
+td.rank { color: var(--muted); width: 46px; text-align: center; }
+td.name { font-weight: 600; } tr.team td.name { color: var(--gold); }
+td.num { text-align: right; font-variant-numeric: tabular-nums; width: 78px; }
+td.bar-cell { width: 160px; } .bar { background: var(--line); border-radius: 5px; height: 8px; overflow: hidden; }
+.bar-fill { background: linear-gradient(90deg, #60a5fa, var(--accent)); height: 100%; }
+td.detail-cell { width: 120px; } details summary { cursor: pointer; font-size: 13px; }
+.obj-list { margin-top: 8px; padding: 10px; background: #fafbfc; border: 1px solid var(--line); border-radius: 8px; font-size: 13px; line-height: 1.9; color: var(--ink); min-width: 320px; }
+.foot { color: var(--muted); font-size: 12px; margin-top: 20px; line-height: 1.8; } .foot b { color: var(--ink); }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>PSP 系统发现目标 · 发现者统计排行</h1>
+  <div class="sub">
+    数据来源：<a href="https://nadc.china-vo.org/psp/article/20171116151450" target="_blank" rel="noopener">PSP系统发现目标列表</a>。本仓库保存的来源快照页面标注更新时间为 未在快照中识别到。<br>
+    统计口径：每颗天体按页面标注的发现者名单计数；多人共同发现时，每位署名实体各计一次，因此发现参与人次之和会大于目标总数。
+  </div>
+
+  <section class="cards" aria-label="统计概览">
+    <div class="card"><div class="card-num">223</div><div class="card-label">累计目标（颗）</div></div>
+    <div class="card"><div class="card-num">126</div><div class="card-label">署名实体（含团队）</div></div>
+    <div class="card"><div class="card-num">42</div><div class="card-label">超新星 SN</div></div>
+<div class="card"><div class="card-num">37</div><div class="card-label">新星 Nova</div></div>
+<div class="card"><div class="card-num">111</div><div class="card-label">各类变星</div></div>
+<div class="card"><div class="card-num">1</div><div class="card-label">活动星系核 AGN</div></div>
+<div class="card"><div class="card-num">32</div><div class="card-label">未获证认</div></div>
+  </section>
+
+  <div class="toolbar" aria-label="表格工具">
+    <input id="search" type="search" placeholder="输入发现者姓名进行筛选" aria-label="按发现者姓名筛选">
+    <button class="btn active" id="sortCount" type="button">按发现数量排序</button>
+    <button class="btn" id="sortName" type="button">按姓名排序</button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>发现者</th><th>发现数量</th><th>覆盖率</th><th>覆盖率图示</th><th>参与发现的天体</th></tr></thead>
+      <tbody id="tbody">
+<tr class="" data-count="223">
+  <td class="rank">1</td>
+  <td class="name">高兴</td>
+  <td class="num">223</td>
+  <td class="num">100.0%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 100.0%"><div class="bar-fill" style="width:100.00%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 223 颗</summary><div class="obj-list">PSN J04544410+6943075（未获证认）、SN 2015cz（SN IIP）、SN 2015ay（SN II）、SN 2016M（SN IIb）、AT 2016adm（未获证认）、M31N 2016-02a（Nova FeII）、SN 2016afa（SN II）、SN 2016ajo（SN Ib）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、AT 2016ara（未获证认）、AT 2016bsf（未获证认）、SN 2016ghq（SN Ia）、M31N 2017-07b（Nova FeII）、AT 2017fvb（未获证认）、SN 2017gjn（SN Ia）、M31N 2017-09a（Nova FeII）、SN 2017glx（SN Ia-91T-like）、M31N 2017-09d（Nova FeII）、SN 2017hle（SN Ia-91bg-like）、AT 2017hqq（未获证认）、SN 2017ixe（SN Ia）、SN 2018acj（SN IIP）、SN 2018gjx（SN II）、SN 2019aik（SN Ia）、SN 2019bqe（SN Ia）、PNV J00441073+4154220（Nova He/N）、SN 2019wep（SN II-pec）、AT 2019wvf（Nova FeII）、SN 2020enm（SN Ia -91T/99aa-like）、AT 2020lye（Nova FeII）、SN 2020yzq（SN II）、AT 2021rnn（UG）、AT 2021rno（Nova He/N）、AT 2021urk（Nova）、SN 2021vtl（SN Ia）、AT 2021yan（UV）、AT 2021yao（UV）、AT 2021xyr（VAR）、AT 2021ypn（Nova FeII）、AT 2021ypo（Nova）、AT 2021yul（Nova）、PSP21an（UV）、PSP21am（EA）、AT 2021zbu（UV）、AT 2021zld（UG）、AT 2021zms（UV）、AT 2021znz（UV）、AT 2021zxr（未获证认）、AT 2021zxn（BY+UV）、AT 2021aabc（未获证认）、AT 2021aacn（未获证认）、AT 2021abua（未获证认）、AT 2021abhx（未获证认）、AT 2021abqo（EA）、AT 2021abmc（未获证认）、AT 2021abqp（未获证认）、AT 2021abqq（未获证认）、AT 2021abqr（未获证认）、AT 2021abty（未获证认）、AT 2021acdq（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22P（Nova He/N）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、PSP22X（EA+ROT）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="204">
+  <td class="rank">2</td>
+  <td class="name">张宓</td>
+  <td class="num">204</td>
+  <td class="num">91.5%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 91.5%"><div class="bar-fill" style="width:91.48%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 204 颗</summary><div class="obj-list">M31N 2016-02a（Nova FeII）、SN 2016afa（SN II）、AT 2016aqx（未获证认）、AT 2016bsf（未获证认）、SN 2017gjn（SN Ia）、M31N 2017-09d（Nova FeII）、SN 2018acj（SN IIP）、SN 2018gjx（SN II）、SN 2019bqe（SN Ia）、PNV J00441073+4154220（Nova He/N）、SN 2019wep（SN II-pec）、AT 2019wvf（Nova FeII）、AT 2020lye（Nova FeII）、SN 2020yzq（SN II）、AT 2021rnn（UG）、AT 2021rno（Nova He/N）、AT 2021urk（Nova）、SN 2021vtl（SN Ia）、AT 2021yan（UV）、AT 2021yao（UV）、AT 2021xyr（VAR）、AT 2021ypn（Nova FeII）、AT 2021ypo（Nova）、PSP21an（UV）、PSP21am（EA）、AT 2021zbu（UV）、AT 2021zld（UG）、AT 2021zms（UV）、AT 2021znz（UV）、AT 2021zxr（未获证认）、AT 2021zxn（BY+UV）、AT 2021aabc（未获证认）、AT 2021aacn（未获证认）、AT 2021abua（未获证认）、AT 2021abhx（未获证认）、AT 2021abqo（EA）、AT 2021abmc（未获证认）、AT 2021abqp（未获证认）、AT 2021abqq（未获证认）、AT 2021abqr（未获证认）、AT 2021abty（未获证认）、AT 2021acdq（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22P（Nova He/N）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、PSP22X（EA+ROT）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="178">
+  <td class="rank">3</td>
+  <td class="name">孙国佑</td>
+  <td class="num">178</td>
+  <td class="num">79.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 79.8%"><div class="bar-fill" style="width:79.82%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 178 颗</summary><div class="obj-list">SN 2015cz（SN IIP）、SN 2015ay（SN II）、SN 2016M（SN IIb）、M31N 2016-02a（Nova FeII）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、SN 2016ghq（SN Ia）、M31N 2017-09a（Nova FeII）、AT 2017hqq（未获证认）、AT 2019wvf（Nova FeII）、SN 2020enm（SN Ia -91T/99aa-like）、AT 2020lye（Nova FeII）、PSP21an（UV）、PSP21am（EA）、AT 2021abqo（EA）、AT 2021acdq（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22P（Nova He/N）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、PSP22X（EA+ROT）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="177">
+  <td class="rank">4</td>
+  <td class="name">阮建高</td>
+  <td class="num">177</td>
+  <td class="num">79.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 79.4%"><div class="bar-fill" style="width:79.37%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 177 颗</summary><div class="obj-list">PSN J04544410+6943075（未获证认）、AT 2016ara（未获证认）、AT 2016bsf（未获证认）、SN 2017gjn（SN Ia）、SN 2017hle（SN Ia-91bg-like）、AT 2017hqq（未获证认）、SN 2017ixe（SN Ia）、SN 2018acj（SN IIP）、SN 2018gjx（SN II）、SN 2019aik（SN Ia）、PSP21an（UV）、PSP21am（EA）、AT 2021abhx（未获证认）、AT 2021abmc（未获证认）、AT 2021abqq（未获证认）、AT 2021acdq（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22P（Nova He/N）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、PSP22X（EA+ROT）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="177">
+  <td class="rank">5</td>
+  <td class="name">赵经远</td>
+  <td class="num">177</td>
+  <td class="num">79.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 79.4%"><div class="bar-fill" style="width:79.37%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 177 颗</summary><div class="obj-list">SN 2017gjn（SN Ia）、M31N 2017-09a（Nova FeII）、SN 2018acj（SN IIP）、SN 2018gjx（SN II）、SN 2019bqe（SN Ia）、AT 2020lye（Nova FeII）、PSP21an（UV）、PSP21am（EA）、AT 2021zms（UV）、AT 2021znz（UV）、AT 2021zxn（BY+UV）、AT 2021aabc（未获证认）、AT 2021aacn（未获证认）、AT 2021abqo（EA）、AT 2021abmc（未获证认）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22P（Nova He/N）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、PSP22X（EA+ROT）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="173">
+  <td class="rank">6</td>
+  <td class="name">徐建林</td>
+  <td class="num">173</td>
+  <td class="num">77.6%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 77.6%"><div class="bar-fill" style="width:77.58%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 173 颗</summary><div class="obj-list">SN 2018acj（SN IIP）、SN 2018gjx（SN II）、SN 2019bqe（SN Ia）、PNV J00441073+4154220（Nova He/N）、AT 2020lye（Nova FeII）、AT 2021yul（Nova）、PSP21an（UV）、PSP21am（EA）、AT 2021znz（UV）、AT 2021aabc（未获证认）、AT 2021abmc（未获证认）、AT 2021acdq（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22P（Nova He/N）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="170">
+  <td class="rank">7</td>
+  <td class="name">周文杰</td>
+  <td class="num">170</td>
+  <td class="num">76.2%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 76.2%"><div class="bar-fill" style="width:76.23%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 170 颗</summary><div class="obj-list">AT 2021yul（Nova）、PSP21an（UV）、PSP21am（EA）、AT 2021abua（未获证认）、AT 2021abqo（EA）、AT 2021abqp（未获证认）、AT 2021abqq（未获证认）、AT 2021abty（未获证认）、AT 2021acdq（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22B（EW）、PSP22C（EA）、PSP22D（EA）、PSP22J（UV）、PSP22E（EA）、PSP22F（UV）、PSP22G（EA+ROT）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22Q（EW）、PSP22R（未获证认）、PSP22S（UV）、PSP22T（UG）、PSP22V（UG）、PSP22U（UV）、PSP22W（EA）、PSP22X（EA+ROT）、AT 2022nci（Nova）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="team" data-count="119">
+  <td class="rank">8</td>
+  <td class="name">PSP团队</td>
+  <td class="num">119</td>
+  <td class="num">53.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 53.4%"><div class="bar-fill" style="width:53.36%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 119 颗</summary><div class="obj-list">PSPV 10（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSPV 1（EA）、PSPV 3（EA）、PSPV 2（EA）、PSPV 8（EA）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSP22al（UG:）、PSP22am（UV）、SN 2023iy（SN Ia）、TCP J02224832+4234106（UV）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J00351266+4032008（UV）、AT 2023yqt（Nova）、AT 2023yvj（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="118">
+  <td class="rank">9</td>
+  <td class="name">唐磊明</td>
+  <td class="num">118</td>
+  <td class="num">52.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 52.9%"><div class="bar-fill" style="width:52.91%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 118 颗</summary><div class="obj-list">AT 2021zms（UV）、AT 2021aceg（Nova）、PSPV 10（EA）、PSP21ak（EA）、PSP22F（UV）、PSP22I（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSP22ab（UG）、PSPV 1（EA）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22ad（AGN）、PSP22ae（SN II）、PSPV 2（EA）、PSPV 8（EA）、PSP22af（UG）、PSPV 9（EA）、PSP22ag（SN II）、PSP22ak（Nova）、PSP22ai（Nova）、PSP22ah（Nova）、PSPV 4（EA）、PSP22aj（UV）、PSPV 5（EA）、PSPV 15（EA）、PSPV 12（EA）、SN 2023bqh（SN II）、PSPV 14（BY）、AT 2023cqd（未获证认）、TCP J09362817+3707556（UV）、PSPV 35（EA）、SN 2023eoc（SN Ia）、SN 2023erk（SN Ia）、PSPV 34（EA）、AT 2023mxi（Nova）、AT 2023nnk（UG）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、AT 2023opo（UG:）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 21（EA）、PSPV 22（EA）、AT 2023uri（Nova）、SN 2023usf（SN Ib）、PSPV 23（EA）、AT 2023wbz（UG）、PSPV 24（EA）、PSPV 25（EA）、PSPV 26（EA）、PSPV 7（BY+UV）、PSPV 27（EA）、AT 2023yoa（Nova）、AT 2023ypg（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、TCP J03325299+3823577（UG:）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="105">
+  <td class="rank">10</td>
+  <td class="name">李言蹊</td>
+  <td class="num">105</td>
+  <td class="num">47.1%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 47.1%"><div class="bar-fill" style="width:47.09%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 105 颗</summary><div class="obj-list">AT 2016bsf（未获证认）、SN 2016ghq（SN Ia）、SN 2017gjn（SN Ia）、SN 2017glx（SN Ia-91T-like）、AT 2017hqq（未获证认）、PSP21an（UV）、PSP21am（EA）、PSP21ao（EA）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、PSP22B（EW）、PSP22D（EA）、PSP22J（UV）、PSP22O（EA）、PSP22K（UV）、PSP22H（ELL）、PSP22I（EA）、PSP22M（EW）、PSP22L（UV）、PSP22N（EA）、PSP22aa（UV）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSPV 1（EA）、PSPV 3（EA）、PSPV 2（EA）、PSPV 8（EA）、PSPV 9（EA）、PSPV 4（EA）、PSPV 5（EA）、PSP22al（UG:）、PSPV 15（EA）、PSPV 12（EA）、PSPV 14（BY）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 7（BY+UV）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、SN 2024gag（SN II）、TCP J19131498+6030325（UV）、TCP J21352875+3547430（UV）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）、TCP J14060081+2156448（UG）、SN 2025aue（SN Ia-91T-like）、PSPV 36（EA+BY）、SN 2025dju（SN Ia）、AT 2025etj（未获证认）、AT 2025ghv（UGSU）、TCP J22513664+3334177（UG）、SN 2025lzw（SN Ia-91T-like）、AT 2025ofe（Nova）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="39">
+  <td class="rank">11</td>
+  <td class="name">严小畅</td>
+  <td class="num">39</td>
+  <td class="num">17.5%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 17.5%"><div class="bar-fill" style="width:17.49%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 39 颗</summary><div class="obj-list">PSP21an（UV）、PSPV 10（EA）、PSP22Q（EW）、PSPV 11（BY+UV）、PSPV 16（BY）、PSPV 5（EA）、PSPV 35（EA）、SN 2023erk（SN Ia）、AT 2023nnk（UG）、PSPV 25（EA）、AT 2023yqt（Nova）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024dlk（SN Ia）、PSPV 32（EA）、PSPV 33（EA）、AT 2024lwy（未获证认）、AT 2024qnv（未获证认）、AT 2024qui（未获证认）、AT 2024ryu（Nova）、AT 2024tde（UV）、TCP J00425013+4236330（UV+BY）、TCP J20235356+5958505（UG）、AT 2024xtk（Nova）、AT 2024ynw（Nova）、SN 2024aawh（SN II）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）、PNV J00424538+4116352（未获证认）、TCP J16092976+6421279（UV）、TCP J03435069+3725400（UV）</div></details></td>
+</tr>
+<tr class="" data-count="31">
+  <td class="rank">12</td>
+  <td class="name">王书铭</td>
+  <td class="num">31</td>
+  <td class="num">13.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 13.9%"><div class="bar-fill" style="width:13.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 31 颗</summary><div class="obj-list">AT 2021abqr（未获证认）、PSP21ao（EA）、PSPV 10（EA）、TCP J00383874+4053374（UV:）、PSP22J（UV）、PSP22O（EA）、PSP22N（EA）、PSP22R（未获证认）、PSP22X（EA+ROT）、PSP22Z（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSPV 1（EA）、PSPV 3（EA）、PSPV 2（EA）、PSPV 8（EA）、PSPV 9（EA）、PSPV 4（EA）、PSPV 5（EA）、PSPV 15（EA）、PSPV 12（EA）、PSPV 14（BY）、AT 2023cqd（未获证认）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 7（BY+UV）、PSPV 36（EA+BY）</div></details></td>
+</tr>
+<tr class="" data-count="28">
+  <td class="rank">13</td>
+  <td class="name">麦梓阳</td>
+  <td class="num">28</td>
+  <td class="num">12.6%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 12.6%"><div class="bar-fill" style="width:12.56%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 28 颗</summary><div class="obj-list">SN 2024biv（SN Ia）、PSPV 33（EA）、AT 2024ryu（Nova）、TCP J00425013+4236330（UV+BY）、AT 2024ynw（Nova）、AT 2024aayx（Nova）、SN 2024acsd（SN Ic-BL）、PNV J00424538+4116352（未获证认）、SN 2025dju（SN Ia）、SN 2025lzw（SN Ia-91T-like）、AT 2025wbt（未获证认）、AT 2025whl（未获证认）、SN 2025wwk（SN Ia）、SN 2025wxl（SN Ia）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="25">
+  <td class="rank">14</td>
+  <td class="name">李华霖</td>
+  <td class="num">25</td>
+  <td class="num">11.2%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 11.2%"><div class="bar-fill" style="width:11.21%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 25 颗</summary><div class="obj-list">PSPV 5（EA）、PSPV 12（EA）、PSPV 34（EA）、PSPV 18（EA+BY）、AT 2023ypg（Nova）、SN 2024vs（SN II）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、PSPV 29（EA）、AT 2024ccb（Nova）、AT 2025whl（未获证认）、AT 2025yhk（未获证认）、PNV J01350197+3043202（Nova）、TCP J03325299+3823577（UG:）、PNV J00414761+4116217（Nova）、PNV J00450509+4106337（未获证认）、PNV J00425774+4108126（Nova）、SN 2026gm（SN Ia）、AT 2026xf（Nova）、AT 2026aoj（Nova）、AT 2026arf（Nova）、AT 2026bux（未获证认）、PNV J00430488+4129414（未获证认）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="24">
+  <td class="rank">15</td>
+  <td class="name">丁岚贺</td>
+  <td class="num">24</td>
+  <td class="num">10.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 10.8%"><div class="bar-fill" style="width:10.76%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 24 颗</summary><div class="obj-list">PSPV 10（EA）、PSP22S（UV）、PSPV 16（BY）、PSP22ah（Nova）、PSP22aj（UV）、AT 2023yqt（Nova）、TCP J07343828+5445315（UV）、TCP J02202036+4236352（UV）、SN 2024vs（SN II）、TCP J03205377+4227578（UV）、AT 2024aoc（Nova）、PSPV 28（BY）、TCP J02055218+1440593（UV）、TCP J02162043+2150582（UV）、TCP J03195697+4043443（BY+UV）、SN 2024biv（SN Ia）、TCP J02165129+3115546（UV）、PSPV 29（EA）、PSPV 30（EA/RS）、SN 2024btj（SN II）、PSPV 31（EW/RS）、AT 2024ccb（Nova）、SN 2024acsd（SN Ic-BL）、TCP J22323922+3858386（UG）</div></details></td>
+</tr>
+<tr class="" data-count="23">
+  <td class="rank">16</td>
+  <td class="name">毕春朋</td>
+  <td class="num">23</td>
+  <td class="num">10.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 10.3%"><div class="bar-fill" style="width:10.31%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 23 颗</summary><div class="obj-list">AT 2021ypn（Nova FeII）、AT 2021ypo（Nova）、AT 2021abqq（未获证认）、SN 2021agco（SN II）、SN 2022jo（SN II）、PSP22D（EA）、PSP22M（EW）、PSP22T（UG）、PSP22U（UV）、PSP22W（EA）、PSPV 16（BY）、PSP22ac（未获证认）、PSP22ag（SN II）、PSP22ah（Nova）、PSP22al（UG:）、PSPV 35（EA）、PSPV 34（EA）、SN 2023usf（SN Ib）、PSPV 24（EA）、PSPV 7（BY+UV）、TCP J00351266+4032008（UV）、TCP J22323922+3858386（UG）、AT 2026xf（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="20">
+  <td class="rank">17</td>
+  <td class="name">丁乙</td>
+  <td class="num">20</td>
+  <td class="num">9.0%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 9.0%"><div class="bar-fill" style="width:8.97%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 20 颗</summary><div class="obj-list">SN 2016ajo（SN Ib）、SN 2016ghq（SN Ia）、M31N 2017-09d（Nova FeII）、SN 2018gjx（SN II）、SN 2019wep（SN II-pec）、SN 2020yzq（SN II）、PSP21am（EA）、AT 2021abqp（未获证认）、AT 2021aceg（Nova）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、TCP J01022730+3134281（UV）、AT 2021aeoz（UG:）、TCP J00444394+4252317（UV）、TCP J00383874+4053374（UV:）、PSP21ak（EA）、SN 2021agco（SN II）、PSP22O（EA）、PSP22P（Nova He/N）</div></details></td>
+</tr>
+<tr class="" data-count="16">
+  <td class="rank">18</td>
+  <td class="name">杜飞</td>
+  <td class="num">16</td>
+  <td class="num">7.2%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 7.2%"><div class="bar-fill" style="width:7.17%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 16 颗</summary><div class="obj-list">SN 2020yzq（SN II）、AT 2021yao（UV）、PSP21an（UV）、AT 2021zbu（UV）、AT 2021zld（UG）、AT 2021abhx（未获证认）、AT 2021abqo（EA）、AT 2021acdq（EA）、AT 2021aecv（CV）、AT 2021aeoz（UG:）、PSP22B（EW）、PSP22E（EA）、PSP22G（EA+ROT）、PSP22I（EA）、PSP22N（EA）、TCP J20235356+5958505（UG）</div></details></td>
+</tr>
+<tr class="" data-count="15">
+  <td class="rank">19</td>
+  <td class="name">陈卓扬</td>
+  <td class="num">15</td>
+  <td class="num">6.7%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 6.7%"><div class="bar-fill" style="width:6.73%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 15 颗</summary><div class="obj-list">PSPV 10（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSPV 8（EA）、PSPV 9（EA）、PSPV 15（EA）、PSPV 12（EA）、PSPV 14（BY）、PSPV 6（ROT）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 7（BY+UV）</div></details></td>
+</tr>
+<tr class="" data-count="15">
+  <td class="rank">20</td>
+  <td class="name">朱林波</td>
+  <td class="num">15</td>
+  <td class="num">6.7%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 6.7%"><div class="bar-fill" style="width:6.73%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 15 颗</summary><div class="obj-list">PSPV 1（EA）、PSP22ac（未获证认）、PSPV 8（EA）、PSP22ah（Nova）、PSP22aj（UV）、PSPV 15（EA）、PSPV 14（BY）、PSPV 35（EA）、PSPV 17（EA+ROT）、PSPV 21（EA）、AT 2023uri（Nova）、PSPV 23（EA）、TCP J21352875+3547430（UV）、TCP J03435069+3725400（UV）、AT 2025ghv（UGSU）</div></details></td>
+</tr>
+<tr class="" data-count="14">
+  <td class="rank">21</td>
+  <td class="name">杨雨昊</td>
+  <td class="num">14</td>
+  <td class="num">6.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 6.3%"><div class="bar-fill" style="width:6.28%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 14 颗</summary><div class="obj-list">PSPV 10（EA）、PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 16（BY）、PSPV 8（EA）、PSPV 9（EA）、PSPV 15（EA）、PSPV 12（EA）、PSPV 14（BY）、PSPV 17（EA+ROT）、PSPV 18（EA+BY）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 7（BY+UV）</div></details></td>
+</tr>
+<tr class="" data-count="12">
+  <td class="rank">22</td>
+  <td class="name">区耀樟</td>
+  <td class="num">12</td>
+  <td class="num">5.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 5.4%"><div class="bar-fill" style="width:5.38%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 12 颗</summary><div class="obj-list">PSPV 10（EA）、PSP22al（UG:）、PSPV 12（EA）、AT 2023mxi（Nova）、AT 2024aayx（Nova）、SN 2025aue（SN Ia-91T-like）、AT 2025ghv（UGSU）、PNV J00450509+4106337（未获证认）、AT 2026xf（Nova）、AT 2026aoj（Nova）、PNV J00423682+4116058（未获证认）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="10">
+  <td class="rank">23</td>
+  <td class="name">张家硕</td>
+  <td class="num">10</td>
+  <td class="num">4.5%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 4.5%"><div class="bar-fill" style="width:4.48%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 10 颗</summary><div class="obj-list">PSPV 10（EA）、SN 2021agco（SN II）、PSP22K（UV）、PSP22M（EW）、PSPV 2（EA）、PSPV 35（EA）、PSPV 34（EA）、AT 2023yqt（Nova）、AT 2024ccb（Nova）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="10">
+  <td class="rank">24</td>
+  <td class="name">罗华</td>
+  <td class="num">10</td>
+  <td class="num">4.5%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 4.5%"><div class="bar-fill" style="width:4.48%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 10 颗</summary><div class="obj-list">PSPV 10（EA）、PSPV 13（EA+ROT）、PSPV 4（EA）、AT 2023mxi（Nova）、PSPV 18（EA+BY）、PSPV 19（EA）、PSPV 20（ELL:）、PSPV 23（EA）、PSPV 26（EA）、PSPV 27（EA）</div></details></td>
+</tr>
+<tr class="" data-count="10">
+  <td class="rank">25</td>
+  <td class="name">任育庆</td>
+  <td class="num">10</td>
+  <td class="num">4.5%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 4.5%"><div class="bar-fill" style="width:4.48%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 10 颗</summary><div class="obj-list">PSPV 11（BY+UV）、PSPV 13（EA+ROT）、PSPV 3（EA）、PSP22ac（未获证认）、PSP22af（UG）、PSPV 9（EA）、PSP22ak（Nova）、PSP22ah（Nova）、PSP22am（UV）、AT 2023yqt（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="9">
+  <td class="rank">26</td>
+  <td class="name">徐章瑞</td>
+  <td class="num">9</td>
+  <td class="num">4.0%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 4.0%"><div class="bar-fill" style="width:4.04%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 9 颗</summary><div class="obj-list">SN 2019bqe（SN Ia）、AT 2020lye（Nova FeII）、AT 2021zxn（BY+UV）、AT 2021aecv（CV）、AT 2021aeey（UGSU:）、TCP J22483457+3140238（UV）、TCP J01022730+3134281（UV）、PSP22O（EA）、PSP22ad（AGN）</div></details></td>
+</tr>
+<tr class="" data-count="9">
+  <td class="rank">27</td>
+  <td class="name">宁敏瑞</td>
+  <td class="num">9</td>
+  <td class="num">4.0%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 4.0%"><div class="bar-fill" style="width:4.04%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 9 颗</summary><div class="obj-list">PSPV 34（EA）、AT 2023wbz（UG）、TCP J02202036+4236352（UV）、TCP J02165129+3115546（UV）、PSPV 31（EW/RS）、SN 2024dlk（SN Ia）、SN 2024gag（SN II）、AT 2025ghv（UGSU）、AT 2026aoj（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="7">
+  <td class="rank">28</td>
+  <td class="name">高伟</td>
+  <td class="num">7</td>
+  <td class="num">3.1%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 3.1%"><div class="bar-fill" style="width:3.14%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 7 颗</summary><div class="obj-list">SN 2016afa（SN II）、SN 2016ajo（SN Ib）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、SN 2017glx（SN Ia-91T-like）、SN 2019wep（SN II-pec）、SN 2020yzq（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="6">
+  <td class="rank">29</td>
+  <td class="name">李昂</td>
+  <td class="num">6</td>
+  <td class="num">2.7%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 2.7%"><div class="bar-fill" style="width:2.69%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 6 颗</summary><div class="obj-list">AT 2016adm（未获证认）、SN 2016afa（SN II）、SN 2016aqw（SN II）、AT 2016bsf（未获证认）、AT 2017fvb（未获证认）、SN 2017glx（SN Ia-91T-like）</div></details></td>
+</tr>
+<tr class="" data-count="6">
+  <td class="rank">30</td>
+  <td class="name">计成</td>
+  <td class="num">6</td>
+  <td class="num">2.7%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 2.7%"><div class="bar-fill" style="width:2.69%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 6 颗</summary><div class="obj-list">AT 2016adm（未获证认）、M31N 2016-02a（Nova FeII）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、AT 2016ara（未获证认）、AT 2016bsf（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="6">
+  <td class="rank">31</td>
+  <td class="name">胡迪</td>
+  <td class="num">6</td>
+  <td class="num">2.7%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 2.7%"><div class="bar-fill" style="width:2.69%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 6 颗</summary><div class="obj-list">SN 2016afa（SN II）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、M31N 2017-09a（Nova FeII）、SN 2017ixe（SN Ia）、SN 2024btj（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="6">
+  <td class="rank">32</td>
+  <td class="name">王晓兵</td>
+  <td class="num">6</td>
+  <td class="num">2.7%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 2.7%"><div class="bar-fill" style="width:2.69%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 6 颗</summary><div class="obj-list">SN 2016aqw（SN II）、AT 2016aqx（未获证认）、SN 2016ghq（SN Ia）、SN 2017gjn（SN Ia）、SN 2017hle（SN Ia-91bg-like）、SN 2018gjx（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="5">
+  <td class="rank">33</td>
+  <td class="name">徐智坚</td>
+  <td class="num">5</td>
+  <td class="num">2.2%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 2.2%"><div class="bar-fill" style="width:2.24%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 5 颗</summary><div class="obj-list">SN 2016M（SN IIb）、M31N 2017-07b（Nova FeII）、SN 2017glx（SN Ia-91T-like）、M31N 2017-09d（Nova FeII）、SN 2019aik（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="5">
+  <td class="rank">34</td>
+  <td class="name">沈洋</td>
+  <td class="num">5</td>
+  <td class="num">2.2%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 2.2%"><div class="bar-fill" style="width:2.24%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 5 颗</summary><div class="obj-list">SN 2016afa（SN II）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、AT 2016bsf（未获证认）、SN 2020yzq（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">35</td>
+  <td class="name">廖家铭</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">PSN J04544410+6943075（未获证认）、SN 2015cz（SN IIP）、SN 2015ay（SN II）、M31N 2016-02a（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">36</td>
+  <td class="name">孙霈源</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">AT 2016adm（未获证认）、SN 2016afa（SN II）、SN 2016ghq（SN Ia）、M31N 2017-09d（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">37</td>
+  <td class="name">薛皓辰</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">M31N 2016-02a（Nova FeII）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）、SN 2017gjn（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">38</td>
+  <td class="name">张小卫</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">SN 2016aqw（SN II）、M31N 2017-09a（Nova FeII）、SN 2018acj（SN IIP）、SN 2018gjx（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">39</td>
+  <td class="name">涂天宇</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">AT 2016aqx（未获证认）、SN 2019bqe（SN Ia）、PNV J00441073+4154220（Nova He/N）、AT 2020lye（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">40</td>
+  <td class="name">赵梓易</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">SN 2017hle（SN Ia-91bg-like）、SN 2024btj（SN II）、AT 2024ccb（Nova）、TCP J03325299+3823577（UG:）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">41</td>
+  <td class="name">刘润瑜</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">PSP21am（EA）、PSPV 10（EA）、TCP J01022730+3134281（UV）、AT 2025ghv（UGSU）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">42</td>
+  <td class="name">兰博文</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">PSP22aj（UV）、PSP22al（UG:）、PSPV 28（BY）、AT 2025ghv（UGSU）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">43</td>
+  <td class="name">赛尔格垒</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">TCP J02224832+4234106（UV）、AT 2024aoc（Nova）、TCP J14060081+2156448（UG）、AT 2025ghv（UGSU）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">44</td>
+  <td class="name">林惠璇</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">PSPV 35（EA）、PSPV 28（BY）、TCP J14060081+2156448（UG）、SN 2026gm（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="4">
+  <td class="rank">45</td>
+  <td class="name">张翔涛</td>
+  <td class="num">4</td>
+  <td class="num">1.8%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.8%"><div class="bar-fill" style="width:1.79%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 4 颗</summary><div class="obj-list">PSPV 35（EA）、SN 2023eoc（SN Ia）、AT 2024tde（UV）、AT 2025etj（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">46</td>
+  <td class="name">徐佳一</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">SN 2015ay（SN II）、SN 2016M（SN IIb）、AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">47</td>
+  <td class="name">尹强</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">M31N 2016-02a（Nova FeII）、SN 2016aqw（SN II）、AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">48</td>
+  <td class="name">廖熙</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">SN 2016afa（SN II）、SN 2016aqw（SN II）、SN 2016ghq（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">49</td>
+  <td class="name">宋韦肇凰</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">AT 2016aqx（未获证认）、AT 2016bsf（未获证认）、SN 2016ghq（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">50</td>
+  <td class="name">聂迎滨</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">AT 2016bsf（未获证认）、AT 2020lye（Nova FeII）、TCP J00444394+4252317（UV）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">51</td>
+  <td class="name">曹铮</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">SN 2017ixe（SN Ia）、SN 2018gjx（SN II）、AT 2024ccb（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">52</td>
+  <td class="name">蒋昕玙</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">SN 2018gjx（SN II）、AT 2019wvf（Nova FeII）、SN 2020yzq（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">53</td>
+  <td class="name">马士卓</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">PSP21an（UV）、PSP22aa（UV）、AT 2025ghv（UGSU）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">54</td>
+  <td class="name">杜恋</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">AT 2021zbu（UV）、AT 2021znz（UV）、PSP22N（EA）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">55</td>
+  <td class="name">容睿</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">PSPV 10（EA）、PSP22al（UG:）、TCP J09362817+3707556（UV）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">56</td>
+  <td class="name">李纪军</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">PSP22V（UG）、PSP22ab（UG）、AT 2025yhk（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="3">
+  <td class="rank">57</td>
+  <td class="name">周子越</td>
+  <td class="num">3</td>
+  <td class="num">1.3%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 1.3%"><div class="bar-fill" style="width:1.35%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 3 颗</summary><div class="obj-list">PSPV 35（EA）、PSPV 22（EA）、PSPV 30（EA/RS）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">58</td>
+  <td class="name">谭瀚杰</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">SN 2016M（SN IIb）、AT 2021yul（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">59</td>
+  <td class="name">王奥博</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">M31N 2016-02a（Nova FeII）、AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">60</td>
+  <td class="name">吕玉玺</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">M31N 2016-02a（Nova FeII）、AT 2016bsf（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">61</td>
+  <td class="name">周玖</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">SN 2016afa（SN II）、AT 2025ghv（UGSU）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">62</td>
+  <td class="name">廖梁健</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">SN 2016aqw（SN II）、AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">63</td>
+  <td class="name">余云香</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">SN 2016aqw（SN II）、AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">64</td>
+  <td class="name">李露泽</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">SN 2016aqw（SN II）、AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">65</td>
+  <td class="name">张紫恒</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">AT 2016aqx（未获证认）、AT 2016ara（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">66</td>
+  <td class="name">殷淑蕾</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">AT 2016aqx（未获证认）、AT 2016bsf（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">67</td>
+  <td class="name">伊兹哈尔伊力江</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">AT 2021rnn（UG）、SN 2026fsf（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">68</td>
+  <td class="name">黄帅</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">AT 2021ypn（Nova FeII）、AT 2021zxn（BY+UV）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">69</td>
+  <td class="name">余傲江</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSP21am（EA）、PSP22ae（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">70</td>
+  <td class="name">冯思远</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">AT 2021zxr（未获证认）、AT 2021aeoz（UG:）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">71</td>
+  <td class="name">杨泽生</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSPV 10（EA）、TCP J01022730+3134281（UV）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">72</td>
+  <td class="name">陈希昱</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSP21ak（EA）、AT 2022nci（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">73</td>
+  <td class="name">唐晓芬</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSP22C（EA）、PSP22T（UG）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">74</td>
+  <td class="name">王沁韬</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSP22V（UG）、PSP22Z（EA）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">75</td>
+  <td class="name">王清臣</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSP22ah（Nova）、SN 2023iy（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">76</td>
+  <td class="name">梁明辉</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">PSP22al（UG:）、TCP J07343828+5445315（UV）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">77</td>
+  <td class="name">王学</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">TCP J03205377+4227578（UV）、TCP J22323922+3858386（UG）</div></details></td>
+</tr>
+<tr class="" data-count="2">
+  <td class="rank">78</td>
+  <td class="name">施柏璋</td>
+  <td class="num">2</td>
+  <td class="num">0.9%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.9%"><div class="bar-fill" style="width:0.90%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 2 颗</summary><div class="obj-list">AT 2026xf（Nova）、AT 2026aoj（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">79</td>
+  <td class="name">陈剑星</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2015ay（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">80</td>
+  <td class="name">郭栩</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2016adm（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">81</td>
+  <td class="name">娄佳昕</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">82</td>
+  <td class="name">乔铅振</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">83</td>
+  <td class="name">刘声</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">84</td>
+  <td class="name">李树璋</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">85</td>
+  <td class="name">袁奎</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">86</td>
+  <td class="name">惠琪</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">87</td>
+  <td class="name">田彬</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2016aqw（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">88</td>
+  <td class="name">娄延文</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">89</td>
+  <td class="name">顾少雄</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2016aqx（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">90</td>
+  <td class="name">蔡新忠</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2016bsf（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">91</td>
+  <td class="name">胡贤溢</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2017gjn（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">92</td>
+  <td class="name">张申炜</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">M31N 2017-09a（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">93</td>
+  <td class="name">施韡</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">M31N 2017-09a（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">94</td>
+  <td class="name">刘伟根</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2018acj（SN IIP）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">95</td>
+  <td class="name">刘少华</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2018gjx（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">96</td>
+  <td class="name">熊家锐</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2019aik（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">97</td>
+  <td class="name">贺柏翔</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2019bqe（SN Ia）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">98</td>
+  <td class="name">毛学辉</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2019wep（SN II-pec）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">99</td>
+  <td class="name">王慧敏</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2020lye（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">100</td>
+  <td class="name">高振超</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2020lye（Nova FeII）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">101</td>
+  <td class="name">符倚瑞</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2020yzq（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">102</td>
+  <td class="name">束伦</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">SN 2020yzq（SN II）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">103</td>
+  <td class="name">程欣荣</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2021yan（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">104</td>
+  <td class="name">覃家宜</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2021xyr（VAR）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">105</td>
+  <td class="name">苏力</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSP21an（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">106</td>
+  <td class="name">丁之凡</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2021zbu（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">107</td>
+  <td class="name">朱庆峰</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2021abua（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">108</td>
+  <td class="name">何奕瑶</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2021abqp（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">109</td>
+  <td class="name">张鹏宇</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2021abty（未获证认）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">110</td>
+  <td class="name">马甜</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSPV 10（EA）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">111</td>
+  <td class="name">肖恩泽</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSPV 10（EA）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">112</td>
+  <td class="name">汤喆</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSPV 10（EA）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">113</td>
+  <td class="name">林国贺</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSP22H（ELL）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">114</td>
+  <td class="name">徐超</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSP22aa（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">115</td>
+  <td class="name">王佳乐</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSPV 16（BY）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">116</td>
+  <td class="name">宋悠然</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSPV 15（EA）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">117</td>
+  <td class="name">程在麒</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">PSPV 6（ROT）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">118</td>
+  <td class="name">侯思行</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">TCP J00351266+4032008（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">119</td>
+  <td class="name">桂冠骐</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2024aoc（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">120</td>
+  <td class="name">马荣耀</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">TCP J03195697+4043443（BY+UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">121</td>
+  <td class="name">卜洋</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2024tde（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">122</td>
+  <td class="name">刘行</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2024ynw（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">123</td>
+  <td class="name">梁弘志</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2024ynw（Nova）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">124</td>
+  <td class="name">陈政</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">TCP J16092976+6421279（UV）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">125</td>
+  <td class="name">杜鹏堃</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">TCP J14060081+2156448（UG）</div></details></td>
+</tr>
+<tr class="" data-count="1">
+  <td class="rank">126</td>
+  <td class="name">杨浩鋆</td>
+  <td class="num">1</td>
+  <td class="num">0.4%</td>
+  <td class="bar-cell"><div class="bar" aria-label="参与覆盖率 0.4%"><div class="bar-fill" style="width:0.45%"></div></div></td>
+  <td class="detail-cell"><details><summary>查看 1 颗</summary><div class="obj-list">AT 2026xf（Nova）</div></details></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="foot"><b>说明：</b>“发现数量”是该署名实体参与发现的目标条目数（含合作发现）。“PSP团队”为原名单中的集体署名，并非个人；“未获证认”表示候选体尚未获得光谱证认；类型标签末尾的“:”表示来源页面标注的分类不确定。</p>
+</main>
+<script>
+const tbody = document.getElementById("tbody");
+const sourceRows = Array.from(tbody.querySelectorAll("tr"));
+const search = document.getElementById("search");
+const btnCount = document.getElementById("sortCount");
+const btnName = document.getElementById("sortName");
+
+function render(list) {
+  tbody.replaceChildren();
+  list.forEach((row, index) => {
+    row.querySelector(".rank").textContent = index + 1;
+    tbody.appendChild(row);
+  });
+}
+
+function applyFilter() {
+  const keyword = search.value.trim();
+  render(sourceRows.filter((row) => row.querySelector(".name").textContent.includes(keyword)));
+}
+
+search.addEventListener("input", applyFilter);
+btnCount.addEventListener("click", () => {
+  sourceRows.sort((a, b) => Number(b.dataset.count) - Number(a.dataset.count) || a.querySelector(".name").textContent.localeCompare(b.querySelector(".name").textContent, "zh"));
+  btnCount.classList.add("active"); btnName.classList.remove("active"); applyFilter();
+});
+btnName.addEventListener("click", () => {
+  sourceRows.sort((a, b) => a.querySelector(".name").textContent.localeCompare(b.querySelector(".name").textContent, "zh"));
+  btnName.classList.add("active"); btnCount.classList.remove("active"); applyFilter();
+});
+</script>
+</body>
+</html>
